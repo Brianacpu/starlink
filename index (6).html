@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STARLINK DIRECT INTERNET — Fast Internet. Direct To Your Phone.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-void: #02050c;
+      --bg-navy: #060e1f;
+      --bg-card: rgba(11, 22, 46, 0.78);
+      --bg-card-hover: rgba(16, 33, 68, 0.92);
+      --electric-blue: #00a8ff;
+      --electric-cyan: #38bdf8;
+      --electric-glow: rgba(0, 168, 255, 0.35);
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-subtle: rgba(148, 163, 184, 0.16);
+      --border-active: rgba(0, 168, 255, 0.75);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --transition: 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #0b1c3d 0%, var(--bg-navy) 38%, var(--bg-void) 100%);
+      color: var(--text-white);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #space-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1, h2, h3, h4, .brand-font {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    section {
+      padding: 4.5rem 0;
+      scroll-margin-top: 84px;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3rem;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(0, 168, 255, 0.12);
+      border: 1px solid rgba(0, 168, 255, 0.32);
+      color: var(--electric-cyan);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+    }
+
+    .highlight-blue {
+      color: var(--electric-cyan);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.88rem 1.6rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--electric-blue) 0%, #0284c7 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 24px -4px var(--electric-glow);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -4px rgba(0, 168, 255, 0.55);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: rgba(15, 29, 58, 0.85);
+      color: var(--text-white);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: var(--electric-cyan);
+      background: rgba(20, 40, 82, 0.95);
+      transform: translateY(-2px);
+    }
+
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 22px -4px rgba(22, 163, 74, 0.4);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -4px rgba(22, 163, 74, 0.58);
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(2, 5, 12, 0.82);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 74px;
+      gap: 1rem;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(0, 168, 255, 0.2), rgba(2, 132, 199, 0.08));
+      border: 1px solid rgba(0, 168, 255, 0.45);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 18px rgba(0, 168, 255, 0.25);
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--electric-cyan);
+      letter-spacing: 0.14em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .nav-link {
+      padding: 0.55rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text-white);
+      background: rgba(0, 168, 255, 0.12);
+    }
+
+    .nav-cta {
+      padding: 0.62rem 1.15rem;
+      font-size: 0.88rem;
+    }
+
+    .mobile-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-white);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero {
+      padding: 3.5rem 0 4rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(0, 168, 255, 0.12);
+      border: 1px solid rgba(0, 168, 255, 0.35);
+      color: var(--electric-cyan);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.25rem;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--electric-cyan);
+      box-shadow: 0 0 10px var(--electric-cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.55; }
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 5.2vw, 3.75rem);
+      font-weight: 700;
+      line-height: 1.07;
+      margin-bottom: 1.15rem;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      max-width: 560px;
+    }
+
+    .metric-item strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--text-white);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .metric-item span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .hero-visual {
+      background: linear-gradient(160deg, rgba(11, 25, 54, 0.82), rgba(4, 10, 24, 0.94));
+      border: 1px solid rgba(0, 168, 255, 0.28);
+      border-radius: 24px;
+      padding: 1.25rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), inset 0 0 40px rgba(0, 168, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-visual svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .float-slow {
+      animation: floatSlow 5.5s ease-in-out infinite;
+    }
+
+    .float-phone {
+      animation: floatPhone 4.2s ease-in-out infinite;
+    }
+
+    .signal-wave {
+      animation: signalPulse 2.4s ease-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-9px); }
+    }
+
+    @keyframes floatPhone {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes signalPulse {
+      0% { opacity: 0.9; transform: scale(0.95); }
+      100% { opacity: 0.1; transform: scale(1.12); }
+    }
+
+    .network-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.35rem;
+    }
+
+    .network-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.65rem;
+      text-align: left;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      width: 100%;
+    }
+
+    .network-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 168, 255, 0.45);
+    }
+
+    .network-card.selected {
+      background: linear-gradient(155deg, rgba(0, 168, 255, 0.16), rgba(9, 21, 46, 0.92));
+      border-color: var(--electric-blue);
+      box-shadow: 0 0 0 1px rgba(0, 168, 255, 0.4), 0 16px 36px -10px rgba(0, 168, 255, 0.35);
+    }
+
+    .network-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .network-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .carrier-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .swatch-safaricom { background: #22c55e; box-shadow: 0 0 10px rgba(34, 197, 94, 0.7); }
+    .swatch-airtel { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
+    .swatch-telkom { background: #00a8ff; box-shadow: 0 0 10px rgba(0, 168, 255, 0.7); }
+
+    .select-pill {
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.14);
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+
+    .network-card.selected .select-pill {
+      background: var(--electric-blue);
+      color: #ffffff;
+    }
+
+    .network-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .network-meta {
+      font-size: 0.8rem;
+      color: var(--electric-cyan);
+      font-weight: 500;
+    }
+
+    .active-network-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.35rem;
+      border-radius: var(--radius-md);
+      background: rgba(0, 168, 255, 0.09);
+      border: 1px solid rgba(0, 168, 255, 0.28);
+      margin-bottom: 2rem;
+    }
+
+    .active-network-banner strong {
+      color: var(--electric-cyan);
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+
+    .package-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.35rem;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .package-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 168, 255, 0.55);
+      box-shadow: 0 20px 40px -15px rgba(0, 168, 255, 0.28);
+    }
+
+    .package-card.featured {
+      border-color: rgba(0, 168, 255, 0.55);
+      background: linear-gradient(170deg, rgba(0, 168, 255, 0.13), rgba(9, 20, 44, 0.9));
+    }
+
+    .popular-tag {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(0, 168, 255, 0.2);
+      color: var(--electric-cyan);
+      border: 1px solid rgba(0, 168, 255, 0.4);
+    }
+
+    .pkg-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .pkg-validity {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .pkg-allowance {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--electric-cyan);
+      margin-bottom: 0.35rem;
+    }
+
+    .pkg-price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-white);
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .pkg-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .pkg-features li::before {
+      content: "✓ ";
+      color: var(--electric-cyan);
+      font-weight: 700;
+    }
+
+    .features-grid,
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .info-card:hover {
+      border-color: rgba(0, 168, 255, 0.45);
+      transform: translateY(-3px);
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(0, 168, 255, 0.16);
+      border: 1px solid rgba(0, 168, 255, 0.4);
+      color: var(--electric-cyan);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .info-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.85rem;
+    }
+
+    .panel h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .panel p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .notice-box {
+      padding: 1rem 1.15rem;
+      border-radius: var(--radius-sm);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fde68a;
+      font-size: 0.86rem;
+      margin-top: 1rem;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: var(--text-white);
+    }
+
+    .faq-icon {
+      color: var(--electric-cyan);
+      font-size: 1.25rem;
+      font-weight: 700;
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 1.35rem 1.2rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.08);
+      padding-top: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 0.45rem;
+      color: var(--text-white);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 0.95rem;
+      border-radius: var(--radius-sm);
+      background: rgba(3, 9, 22, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-white);
+      font-size: 0.95rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--electric-blue);
+      box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.18);
+    }
+
+    .form-error {
+      color: #f87171;
+      font-size: 0.8rem;
+      margin-top: 0.35rem;
+      min-height: 1.1rem;
+    }
+
+    .form-success {
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-sm);
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #86efac;
+      font-size: 0.9rem;
+      margin-top: 0.85rem;
+      display: none;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(2, 5, 12, 0.92);
+      padding: 3.5rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .footer h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.95rem;
+      color: var(--text-white);
+    }
+
+    .footer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .footer li a,
+    .footer li button {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      transition: color var(--transition);
+      text-align: left;
+    }
+
+    .footer li a:hover,
+    .footer li button:hover {
+      color: var(--electric-cyan);
+    }
+
+    .footer-bottom {
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(1, 3, 9, 0.78);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: linear-gradient(165deg, #0b1936 0%, #050c1c 100%);
+      border: 1px solid rgba(0, 168, 255, 0.42);
+      border-radius: 20px;
+      padding: 1.75rem;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.8);
+      transform: translateY(14px) scale(0.98);
+      transition: transform 0.28s ease;
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .modal-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-white);
+      font-size: 1.2rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .modal-close:hover {
+      background: rgba(239, 68, 68, 0.22);
+      color: #fca5a5;
+    }
+
+    .summary-box {
+      background: rgba(3, 10, 24, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.4rem 0;
+      font-size: 0.92rem;
+    }
+
+    .summary-row span:first-child {
+      color: var(--text-muted);
+    }
+
+    .summary-row span:last-child {
+      font-weight: 600;
+      color: var(--text-white);
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .summary-row.total {
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 0.4rem;
+      padding-top: 0.7rem;
+      font-size: 1.05rem;
+    }
+
+    .summary-row.total span:last-child {
+      color: var(--electric-cyan);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .confirm-panel {
+      display: none;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+
+    .confirm-panel.active {
+      display: block;
+    }
+
+    .confirm-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(0, 168, 255, 0.16);
+      border: 1px solid rgba(0, 168, 255, 0.45);
+      color: var(--electric-cyan);
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 1rem;
+    }
+
+    .confirm-icon.success {
+      background: rgba(34, 197, 94, 0.16);
+      border-color: rgba(34, 197, 94, 0.45);
+      color: #86efac;
+    }
+
+    .confirm-icon.failed {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: rgba(239, 68, 68, 0.45);
+      color: #fca5a5;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fde68a;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .status-success {
+      background: rgba(34, 197, 94, 0.16);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .status-failed {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .poll-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .legal-body h4 {
+      color: var(--electric-cyan);
+      font-size: 1rem;
+      margin: 1rem 0 0.35rem;
+    }
+
+    .legal-body p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.65rem;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .packages-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features-grid,
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 74px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(4, 10, 24, 0.98);
+        border-bottom: 1px solid var(--border-subtle);
+        padding: 1rem 1.25rem 1.35rem;
+        gap: 0.4rem;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: inline-flex;
+      }
+
+      .network-grid,
+      .packages-grid,
+      .features-grid,
+      .steps-grid,
+      .two-col,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-metrics {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
+
+  <div class="app-shell">
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a href="#home" class="brand-logo" aria-label="STARLINK DIRECT INTERNET Home">
+          <div class="brand-mark">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="2.5" fill="#00a8ff" />
+              <path d="M5 12a7 7 0 0 1 14 0" />
+              <path d="M2 12a10 10 0 0 1 20 0" />
+              <line x1="12" y1="14.5" x2="12" y2="21" />
+            </svg>
+          </div>
+          <div class="brand-text">
+            STARLINK DIRECT INTERNET
+            <span>MOBILE DATA PORTAL</span>
+          </div>
+        </a>
+
+        <nav class="nav-links" id="navLinks" aria-label="Primary Navigation">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#buy-data" class="nav-link">Buy Data</a>
+          <a href="#how-it-works" class="nav-link">How It Works</a>
+          <a href="#about-us" class="nav-link">About Us</a>
+          <a href="#contact-us" class="nav-link">Contact Us</a>
+        </nav>
+
+        <div style="display:flex; align-items:center; gap:0.65rem;">
+          <a href="#buy-data" class="btn btn-primary nav-cta">BUY DATA NOW</a>
+          <button type="button" class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            STARLINK DIRECT INTERNET
+          </div>
+          <h1 class="hero-title">
+            FAST INTERNET. <span class="highlight-blue">DIRECT TO YOUR PHONE.</span>
+          </h1>
+          <p class="hero-subtitle">
+            Affordable internet packages. Stay connected wherever you are. Choose your preferred mobile network and pick a flexible data bundle designed for everyday browsing, streaming, and messaging.
+          </p>
+          <div class="hero-actions">
+            <a href="#buy-data" class="btn btn-primary">BUY DATA NOW</a>
+            <a href="#how-it-works" class="btn btn-secondary">How It Works</a>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric-item">
+              <strong>5 Bundles</strong>
+              <span>From KSh 50 to KSh 500</span>
+            </div>
+            <div class="metric-item">
+              <strong>3 Networks</strong>
+              <span>Safaricom, Airtel &amp; Telkom</span>
+            </div>
+            <div class="metric-item">
+              <strong>Live Polling</strong>
+              <span>Real-time STK status check</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <svg viewBox="0 0 540 420" role="img" aria-label="Satellite internet dish and smartphone showing internet connectivity">
+            <defs>
+              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0b1f48" />
+                <stop offset="100%" stop-color="#040a18" />
+              </linearGradient>
+              <linearGradient id="beamGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="#00a8ff" stop-opacity="0.35" />
+                <stop offset="100%" stop-color="#00a8ff" stop-opacity="0.02" />
+              </linearGradient>
+              <linearGradient id="phoneScreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#0ea5e9" />
+                <stop offset="100%" stop-color="#071738" />
+              </linearGradient>
+            </defs>
+
+            <rect width="540" height="420" rx="18" fill="url(#skyGrad)" />
+
+            <path d="M -30 130 Q 270 15 570 130" fill="none" stroke="rgba(56,189,248,0.22)" stroke-width="1.5" stroke-dasharray="6 6" />
+            <ellipse cx="270" cy="455" rx="340" ry="110" fill="#071938" stroke="rgba(0,168,255,0.3)" stroke-width="1.5" />
+
+            <polygon points="150,112 395,215 320,340" fill="url(#beamGrad)" />
+            <path class="signal-wave" d="M 180 128 Q 250 155 290 220" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+            <path class="signal-wave" d="M 195 110 Q 280 142 325 225" fill="none" stroke="#00a8ff" stroke-width="2" stroke-linecap="round" />
+
+            <g class="float-slow" transform="translate(105, 62)">
+              <rect x="-58" y="6" width="38" height="18" rx="3" fill="#0f295a" stroke="#38bdf8" stroke-width="1.5" />
+              <rect x="20" y="6" width="38" height="18" rx="3" fill="#0f295a" stroke="#38bdf8" stroke-width="1.5" />
+              <rect x="-16" y="4" width="32" height="22" rx="4" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5" />
+              <circle cx="0" cy="15" r="5" fill="#00a8ff" />
+              <line x1="0" y1="26" x2="0" y2="38" stroke="#38bdf8" stroke-width="2" />
+              <circle cx="0" cy="40" r="3" fill="#38bdf8" />
+            </g>
+
+            <g transform="translate(115, 292)">
+              <path d="M -38 -22 Q 4 12 42 -26 L 34 -33 Q 4 -3 -30 -30 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+              <line x1="4" y1="-12" x2="4" y2="28" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round" />
+              <line x1="-18" y1="28" x2="26" y2="28" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round" />
+              <text x="4" y="48" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Inter, sans-serif">DISH TERMINAL</text>
+            </g>
+
+            <g class="float-phone" transform="translate(345, 168)">
+              <rect x="0" y="0" width="118" height="214" rx="18" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" />
+              <rect x="9" y="14" width="100" height="184" rx="12" fill="url(#phoneScreen)" />
+              <rect x="42" y="18" width="34" height="5" rx="2.5" fill="#0f172a" />
+              <text x="18" y="39" fill="#ffffff" font-size="10" font-weight="700" font-family="Inter, sans-serif">5G • NET</text>
+              <path d="M 42 92 A 24 24 0 0 1 76 92" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+              <path d="M 48 100 A 15 15 0 0 1 70 100" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+              <circle cx="59" cy="109" r="4" fill="#ffffff" />
+              <text x="59" y="135" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700" font-family="Space Grotesk, sans-serif">CONNECTED</text>
+              <text x="59" y="150" text-anchor="middle" fill="#bae6fd" font-size="9.5" font-family="Inter, sans-serif">Data Ready</text>
+              <rect x="24" y="164" width="70" height="20" rx="10" fill="rgba(2, 6, 23, 0.55)" stroke="rgba(255,255,255,0.25)" />
+              <text x="59" y="177" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">DIRECT LINK</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="buy-data">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Step 1 &amp; 2 • Choose Network &amp; Bundle</div>
+          <h2 class="section-title">Select Your Network &amp; <span class="highlight-blue">Data Package</span></h2>
+          <p class="section-subtitle">
+            Pick Safaricom, Airtel, or Telkom below, then select a data package to initiate STK Push and poll live payment status.
+          </p>
+        </div>
+
+        <div class="network-grid" role="radiogroup" aria-label="Select your mobile network" style="margin-bottom: 2.25rem;">
+          <button type="button" class="network-card selected" data-network="Safaricom" aria-checked="true" role="radio">
+            <div class="network-top">
+              <div class="network-badge">
+                <span class="carrier-swatch swatch-safaricom"></span>
+                Safaricom
+              </div>
+              <span class="select-pill">Selected</span>
+            </div>
+            <p class="network-desc">Nationwide mobile data coverage for everyday browsing, calls, and social apps.</p>
+            <div class="network-meta">Preferred Network: Safaricom</div>
+          </button>
+
+          <button type="button" class="network-card" data-network="Airtel" aria-checked="false" role="radio">
+            <div class="network-top">
+              <div class="network-badge">
+                <span class="carrier-swatch swatch-airtel"></span>
+                Airtel
+              </div>
+              <span class="select-pill">Select</span>
+            </div>
+            <p class="network-desc">High-value mobile internet bundles suited for streaming, downloads, and messaging.</p>
+            <div class="network-meta">Preferred Network: Airtel</div>
+          </button>
+
+          <button type="button" class="network-card" data-network="Telkom" aria-checked="false" role="radio">
+            <div class="network-top">
+              <div class="network-badge">
+                <span class="carrier-swatch swatch-telkom"></span>
+                Telkom
+              </div>
+              <span class="select-pill">Select</span>
+            </div>
+            <p class="network-desc">Flexible short-term and monthly data plans with transparent, budget-friendly rates.</p>
+            <div class="network-meta">Preferred Network: Telkom</div>
+          </button>
+        </div>
+
+        <div class="active-network-banner">
+          <div>
+            Selected Mobile Network: <strong id="selectedNetworkLabel">Safaricom</strong>
+          </div>
+          <div style="font-size:0.86rem; color:var(--text-muted);">
+            Click <strong>BUY NOW</strong> on any package below to continue with <strong id="bannerNetworkName">Safaricom</strong>.
+          </div>
+        </div>
+
+        <div class="packages-grid">
+          <article class="package-card" data-package="Tii Midnight" data-allowance="2GB" data-validity="Midnight Window" data-price="KSh 50" data-amount="50">
+            <div>
+              <h3 class="pkg-name">Tii Midnight</h3>
+              <p class="pkg-validity">Validity: Midnight Window</p>
+              <div class="pkg-allowance">2GB</div>
+              <ul class="pkg-features">
+                <li>Late-night downloads &amp; updates</li>
+                <li>Quick mobile activation</li>
+                <li>Works on selected network</li>
+              </ul>
+            </div>
+            <div>
+              <div class="pkg-price">KSh 50</div>
+              <button type="button" class="btn btn-primary buy-now-btn" style="width:100%; margin-top:0.85rem;">BUY NOW</button>
+            </div>
+          </article>
+
+          <article class="package-card" data-package="24 Hours" data-allowance="3.5GB" data-validity="24 Hours" data-price="KSh 100" data-amount="100">
+            <div>
+              <h3 class="pkg-name">24 Hours</h3>
+              <p class="pkg-validity">Validity: 24 Hours</p>
+              <div class="pkg-allowance">3.5GB</div>
+              <ul class="pkg-features">
+                <li>Full 24-hour active window</li>
+                <li>HD video, social &amp; web browsing</li>
+                <li>Transparent single-rate pricing</li>
+              </ul>
+            </div>
+            <div>
+              <div class="pkg-price">KSh 100</div>
+              <button type="button" class="btn btn-primary buy-now-btn" style="width:100%; margin-top:0.85rem;">BUY NOW</button>
+            </div>
+          </article>
+
+          <article class="package-card featured" data-package="7 Days" data-allowance="5GB" data-validity="7 Days" data-price="KSh 250" data-amount="250">
+            <span class="popular-tag">Popular</span>
+            <div>
+              <h3 class="pkg-name">7 Days</h3>
+              <p class="pkg-validity">Validity: 7 Days</p>
+              <div class="pkg-allowance">5GB</div>
+              <ul class="pkg-features">
+                <li>One full week of connectivity</li>
+                <li>Ideal for work, study &amp; streaming</li>
+                <li>Easy phone number entry</li>
+              </ul>
+            </div>
+            <div>
+              <div class="pkg-price">KSh 250</div>
+              <button type="button" class="btn btn-primary buy-now-btn" style="width:100%; margin-top:0.85rem;">BUY NOW</button>
+            </div>
+          </article>
+
+          <article class="package-card" data-package="15 Days" data-allowance="7GB" data-validity="15 Days" data-price="KSh 350" data-amount="350">
+            <div>
+              <h3 class="pkg-name">15 Days</h3>
+              <p class="pkg-validity">Validity: 15 Days</p>
+              <div class="pkg-allowance">7GB</div>
+              <ul class="pkg-features">
+                <li>Two weeks of steady data access</li>
+                <li>Great for travel &amp; daily tasks</li>
+                <li>No hidden subscription fees</li>
+              </ul>
+            </div>
+            <div>
+              <div class="pkg-price">KSh 350</div>
+              <button type="button" class="btn btn-primary buy-now-btn" style="width:100%; margin-top:0.85rem;">BUY NOW</button>
+            </div>
+          </article>
+
+          <article class="package-card featured" data-package="30 Days" data-allowance="15GB / Unlimited" data-validity="30 Days" data-price="KSh 500" data-amount="500">
+            <span class="popular-tag">Best Value</span>
+            <div>
+              <h3 class="pkg-name">30 Days</h3>
+              <p class="pkg-validity">Validity: 30 Days</p>
+              <div class="pkg-allowance">15GB / Unlimited</div>
+              <ul class="pkg-features">
+                <li>Full 30-day monthly bundle</li>
+                <li>High-capacity data allowance</li>
+                <li>Designed for heavy daily use</li>
+              </ul>
+            </div>
+            <div>
+              <div class="pkg-price">KSh 500</div>
+              <button type="button" class="btn btn-primary buy-now-btn" style="width:100%; margin-top:0.85rem;">BUY NOW</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-choose-us">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Why Choose Us</div>
+          <h2 class="section-title">Built for <span class="highlight-blue">Speed, Simplicity &amp; Value</span></h2>
+          <p class="section-subtitle">
+            A clean, mobile-first experience that helps you pick the right bundle without clutter or confusion.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="info-card">
+            <div class="step-num">01</div>
+            <h3>Affordable Bundles</h3>
+            <p>Clear pricing starting at KSh 50 so you can match your data allowance to your daily budget.</p>
+          </div>
+          <div class="info-card">
+            <div class="step-num">02</div>
+            <h3>Multi-Network Choice</h3>
+            <p>Select Safaricom, Airtel, or Telkom in one click before launching your bundle order.</p>
+          </div>
+          <div class="info-card">
+            <div class="step-num">03</div>
+            <h3>Responsive Anywhere</h3>
+            <p>Designed to load fast and look sharp on smartphones, tablets, and desktop screens.</p>
+          </div>
+          <div class="info-card">
+            <div class="step-num">04</div>
+            <h3>Friendly Assistance</h3>
+            <p>Reach our support team anytime through the contact form or WhatsApp button.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Simple Process</div>
+          <h2 class="section-title">How <span class="highlight-blue">It Works</span></h2>
+          <p class="section-subtitle">
+            Ordering a data package with STK Push and automated status polling takes less than a minute.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="info-card">
+            <div class="step-num">1</div>
+            <h3>Choose Network</h3>
+            <p>Select Safaricom, Airtel, or Telkom in the network selection section.</p>
+          </div>
+          <div class="info-card">
+            <div class="step-num">2</div>
+            <h3>Pick a Package</h3>
+            <p>Compare data allowances, validity periods, and prices, then click BUY NOW.</p>
+          </div>
+          <div class="info-card">
+            <div class="step-num">3</div>
+            <h3>Approve STK Prompt</h3>
+            <p>Enter your phone number and click CONTINUE to trigger /api/stk-push and enter your PIN.</p>
+          </div>
+          <div class="info-card">
+            <div class="step-num">4</div>
+            <h3>Live Status Polling</h3>
+            <p>The page automatically polls /api/stk-status until payment completes or times out.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-us">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">About Us</div>
+          <h2 class="section-title">About <span class="highlight-blue">STARLINK DIRECT INTERNET</span></h2>
+          <p class="section-subtitle">
+            A modern telecommunications data storefront focused on accessible mobile internet bundles.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Our Mission</h3>
+            <p>
+              STARLINK DIRECT INTERNET is designed to make choosing and ordering mobile data packages fast, straightforward, and accessible across devices. Whether you need a short Tii Midnight bundle or a 30-day plan, everything is organized clearly in one place.
+            </p>
+            <p>
+              We prioritize clean navigation, transparent bundle details, and responsive design so customers on mobile networks can browse effortlessly.
+            </p>
+          </div>
+
+          <div class="panel">
+            <h3>Service &amp; Branding Transparency</h3>
+            <p>
+              This website provides a frontend interface for browsing internet data packages across Safaricom, Airtel, and Telkom options and initiating STK Push checks via server endpoints.
+            </p>
+            <div class="notice-box">
+              <strong>Important Notice:</strong> Starlink, Safaricom, Airtel, and Telkom names and references are used for descriptive and illustrative purposes only and do not imply official partnership, sponsorship, or endorsement. Keep secret API keys strictly in server environment variables rather than client-side files.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">FAQ</div>
+          <h2 class="section-title">Frequently Asked <span class="highlight-blue">Questions</span></h2>
+          <p class="section-subtitle">
+            Quick answers to common questions about packages, networks, and STK status polling.
+          </p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item open">
+            <button type="button" class="faq-question" aria-expanded="true">
+              <span>Which mobile networks can I select on this website?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer" style="max-height: 220px;">
+              <div class="faq-answer-inner">
+                You can choose between Safaricom, Airtel, and Telkom in the network selection section before clicking BUY NOW on any package.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>What data packages and prices are available?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                We display five packages: Tii Midnight (2GB for KSh 50), 24 Hours (3.5GB for KSh 100), 7 Days (5GB for KSh 250), 15 Days (7GB for KSh 350), and 30 Days (15GB / Unlimited for KSh 500).
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>How does STK Push status polling work after I click CONTINUE?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                Submitting the purchase form sends your order to <code>/api/stk-push</code> and, once a transaction ID is returned, polls <code>/api/stk-status?transactionId=...</code> every few seconds until the status reaches a final outcome or stops after the polling limit.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>How can I get help if I have a question?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                You can use the Contact Us form below or click the WhatsApp contact button in the customer support section to reach out.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact-us">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Customer Support</div>
+          <h2 class="section-title">Contact <span class="highlight-blue">Us</span></h2>
+          <p class="section-subtitle">
+            Have a question about packages or your order? Send a message or chat on WhatsApp.
+          </p>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Customer Support Desk</h3>
+            <p>
+              Our support team is ready to help with general inquiries about data bundles, network selection, and using the portal.
+            </p>
+            <div class="summary-box" style="margin-top:1.1rem;">
+              <div class="summary-row">
+                <span>Support Hours</span>
+                <span>Daily, 07:00 – 22:00</span>
+              </div>
+              <div class="summary-row">
+                <span>Support Email</span>
+                <span>support@starlinkdirect-example.com</span>
+              </div>
+              <div class="summary-row">
+                <span>WhatsApp Line</span>
+                <span>+254 700 000 000</span>
+              </div>
+            </div>
+            <a
+              href="https://wa.me/254700000000?text=Hello%20STARLINK%20DIRECT%20INTERNET%20Support%2C%20I%20need%20assistance."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-whatsapp"
+              style="width:100%;"
+            >
+              Chat on WhatsApp (+254 700 000 000)
+            </a>
+          </div>
+
+          <div class="panel">
+            <h3>Send a Message</h3>
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="contactName">Full Name</label>
+                <input type="text" id="contactName" class="form-control" placeholder="Enter your name" required />
+                <div class="form-error" id="contactNameError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="contactPhoneOrEmail">Phone Number or Email</label>
+                <input type="text" id="contactPhoneOrEmail" class="form-control" placeholder="e.g. 0712 345 678 or name@example.com" required />
+                <div class="form-error" id="contactInfoError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="contactMessage">Message</label>
+                <textarea id="contactMessage" rows="4" class="form-control" placeholder="How can we help you?" required></textarea>
+                <div class="form-error" id="contactMessageError"></div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+              <div class="form-success" id="contactSuccess">
+                Your message has been prepared locally. Thank you for contacting STARLINK DIRECT INTERNET.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a href="#home" class="brand-logo" style="margin-bottom:0.85rem;">
+              <div class="brand-mark">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+                  <circle cx="12" cy="12" r="2.5" fill="#00a8ff" />
+                  <path d="M5 12a7 7 0 0 1 14 0" />
+                  <path d="M2 12a10 10 0 0 1 20 0" />
+                </svg>
+              </div>
+              <div class="brand-text">
+                STARLINK DIRECT INTERNET
+                <span>MOBILE DATA PORTAL</span>
+              </div>
+            </a>
+            <p style="color:var(--text-muted); font-size:0.88rem; max-width:320px;">
+              Fast internet. Direct to your phone. Explore mobile data bundles across Safaricom, Airtel, and Telkom options.
+            </p>
+          </div>
+
+          <div>
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#buy-data">Buy Data</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#about-us">About Us</a></li>
+              <li><a href="#contact-us">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Packages &amp; Help</h4>
+            <ul>
+              <li><a href="#buy-data">Tii Midnight — 2GB (KSh 50)</a></li>
+              <li><a href="#buy-data">7 Days — 5GB (KSh 250)</a></li>
+              <li><a href="#buy-data">30 Days — 15GB / Unlimited (KSh 500)</a></li>
+              <li><a href="#faq">Frequently Asked Questions</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><button type="button" id="openPrivacyBtn">Privacy Policy</button></li>
+              <li><button type="button" id="openTermsBtn">Terms and Conditions</button></li>
+              <li><a href="#contact-us">Customer Support</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; <span id="currentYear"></span> STARLINK DIRECT INTERNET. All rights reserved.</span>
+          <span>No implied official carrier or satellite endorsement.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Purchase Modal with STK Push & Status Polling -->
+  <div class="modal-backdrop" id="purchaseModal" role="dialog" aria-modal="true" aria-labelledby="purchaseModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="purchaseModalTitle">Complete Package Order</h3>
+        <button type="button" class="modal-close" id="closePurchaseModal" aria-label="Close purchase modal">&times;</button>
+      </div>
+
+      <div id="purchaseFormView">
+        <div class="summary-box">
+          <div class="summary-row">
+            <span>Selected Package</span>
+            <span id="modalPkgName">7 Days</span>
+          </div>
+          <div class="summary-row">
+            <span>Data Allowance</span>
+            <span id="modalPkgAllowance">5GB</span>
+          </div>
+          <div class="summary-row">
+            <span>Validity</span>
+            <span id="modalPkgValidity">7 Days</span>
+          </div>
+          <div class="summary-row">
+            <span>Selected Network</span>
+            <span id="modalNetworkName">Safaricom</span>
+          </div>
+          <div class="summary-row total">
+            <span>Package Price</span>
+            <span id="modalPkgPrice">KSh 250</span>
+          </div>
+        </div>
+
+        <form id="purchaseForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="customerPhone">Phone Number</label>
+            <input
+              type="tel"
+              id="customerPhone"
+              class="form-control"
+              placeholder="e.g. 0712345678 or 254712345678"
+              required
+            />
+            <div class="form-error" id="phoneError"></div>
+          </div>
+
+          <button type="submit" id="continueOrderBtn" class="btn btn-primary" style="width:100%;">CONTINUE</button>
+        </form>
+      </div>
+
+      <div class="confirm-panel" id="purchaseConfirmView">
+        <div class="confirm-icon" id="statusIcon">&#8987;</div>
+        <h3 id="statusHeading" style="margin-bottom:0.4rem;">STK Push Sent</h3>
+        <p class="poll-note" id="statusMessage">
+          Check your phone and enter your M-Pesa PIN. Checking payment status...
+        </p>
+
+        <div class="summary-box" style="text-align:left;">
+          <div class="summary-row">
+            <span>Status</span>
+            <span id="confirmStatusBadge"><span class="status-badge status-pending" id="confirmStatusText">SENT</span></span>
+          </div>
+          <div class="summary-row">
+            <span>Order Reference</span>
+            <span id="confirmRefCode">SDI-0000</span>
+          </div>
+          <div class="summary-row">
+            <span>Transaction ID</span>
+            <span id="confirmTxId">Pending...</span>
+          </div>
+          <div class="summary-row">
+            <span>M-Pesa Receipt</span>
+            <span id="confirmReceipt">—</span>
+          </div>
+          <div class="summary-row">
+            <span>Network</span>
+            <span id="confirmNetwork">Safaricom</span>
+          </div>
+          <div class="summary-row">
+            <span>Package</span>
+            <span id="confirmPackage">7 Days (5GB)</span>
+          </div>
+          <div class="summary-row">
+            <span>Phone Number</span>
+            <span id="confirmPhone">254712345678</span>
+          </div>
+          <div class="summary-row total">
+            <span>Price</span>
+            <span id="confirmPrice">KSh 250</span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary" id="checkNowBtn" style="flex:1;">Check Status Now</button>
+          <button type="button" class="btn btn-primary" id="doneOrderBtn" style="flex:1;">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal Modal -->
+  <div class="modal-backdrop" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="legalModalTitle">Privacy Policy</h3>
+        <button type="button" class="modal-close" id="closeLegalModal" aria-label="Close legal information">&times;</button>
+      </div>
+      <div class="legal-body" id="legalModalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+      // Animated Space Canvas
+      const canvas = document.getElementById('space-canvas');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      let width = 0;
+      let height = 0;
+
+      function resizeCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        const count = Math.min(130, Math.floor((width * height) / 11000));
+        stars = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.random() * 1.6 + 0.4,
+          alpha: Math.random() * 0.75 + 0.2,
+          speedY: Math.random() * 0.18 + 0.04,
+          twinkle: Math.random() * 0.02 + 0.005,
+          dir: Math.random() > 0.5 ? 1 : -1
+        }));
+      }
+
+      function renderStars() {
+        ctx.clearRect(0, 0, width, height);
+        for (const s of stars) {
+          s.y -= s.speedY;
+          if (s.y < -4) {
+            s.y = height + 4;
+            s.x = Math.random() * width;
+          }
+          s.alpha += s.twinkle * s.dir;
+          if (s.alpha >= 0.95) {
+            s.alpha = 0.95;
+            s.dir = -1;
+          } else if (s.alpha <= 0.15) {
+            s.alpha = 0.15;
+            s.dir = 1;
+          }
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(186, 230, 253, ${s.alpha.toFixed(3)})`;
+          ctx.fill();
+        }
+        requestAnimationFrame(renderStars);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      renderStars();
+
+      // Mobile Navigation
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.getElementById('navLinks');
+
+      mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      navLinks.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      const trackedSections = ['home', 'buy-data', 'how-it-works', 'about-us', 'contact-us']
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY + 130;
+        let currentId = 'home';
+        for (const sec of trackedSections) {
+          if (sec.offsetTop <= scrollPos) {
+            currentId = sec.id;
+          }
+        }
+        document.querySelectorAll('.nav-link').forEach((a) => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${currentId}`);
+        });
+      }, { passive: true });
+
+      // Network Selection
+      let selectedNetwork = 'Safaricom';
+      const networkCards = document.querySelectorAll('.network-card');
+      const selectedNetworkLabel = document.getElementById('selectedNetworkLabel');
+      const bannerNetworkName = document.getElementById('bannerNetworkName');
+
+      function setNetwork(networkName) {
+        selectedNetwork = networkName;
+        selectedNetworkLabel.textContent = networkName;
+        bannerNetworkName.textContent = networkName;
+
+        networkCards.forEach((card) => {
+          const isMatch = card.dataset.network === networkName;
+          card.classList.toggle('selected', isMatch);
+          card.setAttribute('aria-checked', String(isMatch));
+          const pill = card.querySelector('.select-pill');
+          if (pill) {
+            pill.textContent = isMatch ? 'Selected' : 'Select';
+          }
+        });
+      }
+
+      networkCards.forEach((card) => {
+        card.addEventListener('click', () => setNetwork(card.dataset.network));
+      });
+
+      // Phone Normalization for Kenya M-Pesa (2547XXXXXXXX / 2541XXXXXXXX)
+      function normalizeKenyaPhone(rawInput) {
+        const digits = String(rawInput || '').replace(/\D/g, '');
+        if (digits.startsWith('254') && digits.length === 12) return digits;
+        if (digits.startsWith('0') && digits.length === 10) return `254${digits.slice(1)}`;
+        if ((digits.startsWith('7') || digits.startsWith('1')) && digits.length === 9) return `254${digits}`;
+        return null;
+      }
+
+      // STK Polling Controller
+      const TERMINAL_SUCCESS = new Set(['COMPLETED', 'SUCCESS', 'PAID']);
+      const TERMINAL_FAILED = new Set(['FAILED', 'CANCELLED', 'REJECTED', 'EXPIRED']);
+
+      let activePollTimer = null;
+      let activePollStopped = true;
+      let currentTransactionId = null;
+
+      function stopActivePolling() {
+        activePollStopped = true;
+        if (activePollTimer !== null) {
+          clearTimeout(activePollTimer);
+          activePollTimer = null;
+        }
+      }
+
+      function renderPaymentStatus(statusRaw, data) {
+        const status = String(statusRaw || 'PENDING').toUpperCase();
+        const badgeEl = document.getElementById('confirmStatusBadge');
+        const iconEl = document.getElementById('statusIcon');
+        const headingEl = document.getElementById('statusHeading');
+        const msgEl = document.getElementById('statusMessage');
+        const receiptEl = document.getElementById('confirmReceipt');
+
+        const receipt = data?.mpesaReceipt || data?.metadata?.mpesaReceipt || '—';
+        receiptEl.textContent = receipt || '—';
+
+        if (TERMINAL_SUCCESS.has(status)) {
+          badgeEl.innerHTML = `<span class="status-badge status-success">${status}</span>`;
+          iconEl.className = 'confirm-icon success';
+          iconEl.innerHTML = '&#10003;';
+          headingEl.textContent = 'Payment Confirmed';
+          msgEl.textContent = 'STK payment completed. Your selected bundle details have been confirmed.';
+          return;
+        }
+
+        if (TERMINAL_FAILED.has(status)) {
+          badgeEl.innerHTML = `<span class="status-badge status-failed">${status}</span>`;
+          iconEl.className = 'confirm-icon failed';
+          iconEl.innerHTML = '!';
+          headingEl.textContent = 'Payment Not Completed';
+          msgEl.textContent = data?.message || 'The payment prompt was cancelled, declined, or expired. You can close and try again.';
+          return;
+        }
+
+        badgeEl.innerHTML = `<span class="status-badge status-pending">${status || 'PENDING'}</span>`;
+        iconEl.className = 'confirm-icon';
+        iconEl.innerHTML = '&#8987;';
+        headingEl.textContent = 'Waiting for M-Pesa PIN';
+        msgEl.textContent = 'STK prompt sent to your phone. Polling /api/stk-status for confirmation...';
+      }
+
+      async function queryStkStatusOnce(transactionId) {
+        const res = await fetch(`/api/stk-status?transactionId=${encodeURIComponent(transactionId)}`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data?.error || `Status check failed (${res.status})`);
+        }
+        return data;
+      }
+
+      function beginStkStatusPolling(transactionId, { intervalMs = 3000, maxAttempts = 25 } = {}) {
+        stopActivePolling();
+        activePollStopped = false;
+        currentTransactionId = transactionId;
+        let attempts = 0;
+
+        async function step() {
+          if (activePollStopped || currentTransactionId !== transactionId) return;
+          attempts += 1;
+
+          try {
+            const data = await queryStkStatusOnce(transactionId);
+            const status = String(data?.status || 'PENDING').toUpperCase();
+            renderPaymentStatus(status, data);
+
+            if (TERMINAL_SUCCESS.has(status) || TERMINAL_FAILED.has(status)) {
+              stopActivePolling();
+              return;
+            }
+          } catch (err) {
+            const msgEl = document.getElementById('statusMessage');
+            msgEl.textContent = `Polling /api/stk-status (attempt ${attempts}/${maxAttempts}): ${err.message}`;
+          }
+
+          if (attempts >= maxAttempts) {
+            stopActivePolling();
+            const msgEl = document.getElementById('statusMessage');
+            msgEl.textContent = 'Automatic polling paused after max attempts. Click "Check Status Now" to query again.';
+            return;
+          }
+
+          activePollTimer = setTimeout(step, intervalMs);
+        }
+
+        step();
+      }
+
+      // Purchase Modal Logic
+      const purchaseModal = document.getElementById('purchaseModal');
+      const closePurchaseModal = document.getElementById('closePurchaseModal');
+      const purchaseFormView = document.getElementById('purchaseFormView');
+      const purchaseConfirmView = document.getElementById('purchaseConfirmView');
+      const purchaseForm = document.getElementById('purchaseForm');
+      const continueOrderBtn = document.getElementById('continueOrderBtn');
+      const customerPhoneInput = document.getElementById('customerPhone');
+      const phoneError = document.getElementById('phoneError');
+
+      let activePackageData = {
+        name: '7 Days',
+        allowance: '5GB',
+        validity: '7 Days',
+        price: 'KSh 250',
+        amount: 250
+      };
+
+      function openPurchaseModal(pkg) {
+        stopActivePolling();
+        currentTransactionId = null;
+        activePackageData = pkg;
+
+        document.getElementById('modalPkgName').textContent = pkg.name;
+        document.getElementById('modalPkgAllowance').textContent = pkg.allowance;
+        document.getElementById('modalPkgValidity').textContent = pkg.validity;
+        document.getElementById('modalNetworkName').textContent = selectedNetwork;
+        document.getElementById('modalPkgPrice').textContent = pkg.price;
+
+        phoneError.textContent = '';
+        customerPhoneInput.value = '';
+        continueOrderBtn.disabled = false;
+        continueOrderBtn.textContent = 'CONTINUE';
+        purchaseConfirmView.classList.remove('active');
+        purchaseFormView.style.display = 'block';
+
+        purchaseModal.classList.add('open');
+        setTimeout(() => customerPhoneInput.focus(), 120);
+      }
+
+      function closeModal(modalEl) {
+        if (modalEl === purchaseModal) {
+          stopActivePolling();
+        }
+        modalEl.classList.remove('open');
+      }
+
+      document.querySelectorAll('.buy-now-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const card = e.target.closest('.package-card');
+          if (!card) return;
+          openPurchaseModal({
+            name: card.dataset.package,
+            allowance: card.dataset.allowance,
+            validity: card.dataset.validity,
+            price: card.dataset.price,
+            amount: Number(card.dataset.amount)
+          });
+        });
+      });
+
+      closePurchaseModal.addEventListener('click', () => closeModal(purchaseModal));
+      purchaseModal.addEventListener('click', (e) => {
+        if (e.target === purchaseModal) closeModal(purchaseModal);
+      });
+
+      purchaseForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const normalizedPhone = normalizeKenyaPhone(customerPhoneInput.value);
+
+        if (!normalizedPhone) {
+          phoneError.textContent = 'Enter a valid Kenyan mobile number (e.g. 0712345678 or 254712345678).';
+          customerPhoneInput.focus();
+          return;
+        }
+
+        phoneError.textContent = '';
+        continueOrderBtn.disabled = true;
+        continueOrderBtn.textContent = 'Sending STK Push...';
+
+        const reference = `SDI-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
+
+        try {
+          const res = await fetch('/api/stk-push', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              phone: normalizedPhone,
+              amount: activePackageData.amount,
+              reference,
+              description: `${activePackageData.name} (${activePackageData.allowance}) - ${selectedNetwork}`
+            })
+          });
+
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            throw new Error(data?.error || `STK Push request failed (${res.status})`);
+          }
+
+          const txId = data?.transactionId || data?.id || '';
+          const initialStatus = data?.status || 'SENT';
+
+          document.getElementById('confirmRefCode').textContent = reference;
+          document.getElementById('confirmTxId').textContent = txId || 'Awaiting ID';
+          document.getElementById('confirmNetwork').textContent = selectedNetwork;
+          document.getElementById('confirmPackage').textContent = `${activePackageData.name} (${activePackageData.allowance})`;
+          document.getElementById('confirmPhone').textContent = normalizedPhone;
+          document.getElementById('confirmPrice').textContent = activePackageData.price;
+
+          purchaseFormView.style.display = 'none';
+          purchaseConfirmView.classList.add('active');
+          renderPaymentStatus(initialStatus, data);
+
+          if (txId) {
+            beginStkStatusPolling(txId, { intervalMs: 3000, maxAttempts: 25 });
+          } else {
+            document.getElementById('statusMessage').textContent =
+              'STK Push initiated, but no transactionId was returned for automatic polling.';
+          }
+        } catch (err) {
+          phoneError.textContent = err.message || 'Unable to start STK Push. Check /api/stk-push configuration.';
+          continueOrderBtn.disabled = false;
+          continueOrderBtn.textContent = 'CONTINUE';
+        }
+      });
+
+      document.getElementById('checkNowBtn').addEventListener('click', async () => {
+        if (!currentTransactionId) return;
+        const msgEl = document.getElementById('statusMessage');
+        msgEl.textContent = 'Checking latest status from /api/stk-status...';
+        try {
+          const data = await queryStkStatusOnce(currentTransactionId);
+          const status = String(data?.status || 'PENDING').toUpperCase();
+          renderPaymentStatus(status, data);
+          if (!TERMINAL_SUCCESS.has(status) && !TERMINAL_FAILED.has(status)) {
+            beginStkStatusPolling(currentTransactionId, { intervalMs: 3000, maxAttempts: 25 });
+          }
+        } catch (err) {
+          msgEl.textContent = `Status check error: ${err.message}`;
+        }
+      });
+
+      document.getElementById('doneOrderBtn').addEventListener('click', () => {
+        closeModal(purchaseModal);
+      });
+
+      // FAQ Accordion
+      document.querySelectorAll('.faq-question').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          const answer = item.querySelector('.faq-answer');
+          const isOpen = item.classList.toggle('open');
+          btn.setAttribute('aria-expanded', String(isOpen));
+          answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : '0px';
+        });
+      });
+
+      // Contact Form
+      const contactForm = document.getElementById('contactForm');
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameEl = document.getElementById('contactName');
+        const infoEl = document.getElementById('contactPhoneOrEmail');
+        const msgEl = document.getElementById('contactMessage');
+
+        const nameErr = document.getElementById('contactNameError');
+        const infoErr = document.getElementById('contactInfoError');
+        const msgErr = document.getElementById('contactMessageError');
+        const successBox = document.getElementById('contactSuccess');
+
+        nameErr.textContent = '';
+        infoErr.textContent = '';
+        msgErr.textContent = '';
+        successBox.style.display = 'none';
+
+        let valid = true;
+        if (!nameEl.value.trim()) {
+          nameErr.textContent = 'Please enter your name.';
+          valid = false;
+        }
+        if (!infoEl.value.trim()) {
+          infoErr.textContent = 'Please enter a phone number or email address.';
+          valid = false;
+        }
+        if (!msgEl.value.trim()) {
+          msgErr.textContent = 'Please enter your message.';
+          valid = false;
+        }
+
+        if (valid) {
+          successBox.style.display = 'block';
+          contactForm.reset();
+        }
+      });
+
+      // Legal Modal
+      const legalModal = document.getElementById('legalModal');
+      const legalModalTitle = document.getElementById('legalModalTitle');
+      const legalModalContent = document.getElementById('legalModalContent');
+      const closeLegalModal = document.getElementById('closeLegalModal');
+
+      const privacyHtml = `
+        <h4>1. Payment &amp; Status Requests</h4>
+        <p>When you submit a package order, your selected bundle, network, phone number, and generated reference are sent to <code>/api/stk-push</code> and polled via <code>/api/stk-status</code>.</p>
+        <h4>2. Credential Security</h4>
+        <p>Authentication tokens and channel settings belong strictly in server-side environment variables (such as Vercel Environment Variables) and are never embedded in client HTML/JS.</p>
+        <h4>3. External Links</h4>
+        <p>Clicking the WhatsApp support button opens WhatsApp in a new tab subject to WhatsApp's own privacy practices.</p>
+      `;
+
+      const termsHtml = `
+        <h4>1. Package &amp; Network Selection</h4>
+        <p>This website lets you choose Safaricom, Airtel, or Telkom and select from Tii Midnight (2GB), 24 Hours (3.5GB), 7 Days (5GB), 15 Days (7GB), and 30 Days (15GB / Unlimited) bundles.</p>
+        <h4>2. No Implied Endorsement</h4>
+        <p>Starlink and mobile network names mentioned on this site are for identification and illustrative purposes only and do not represent an official partnership or authorization unless explicitly established elsewhere.</p>
+        <h4>3. Transaction Status</h4>
+        <p>Orders remain pending until the payment status endpoint reports a completed/paid status.</p>
+      `;
+
+      function openLegalModal(type) {
+        if (type === 'privacy') {
+          legalModalTitle.textContent = 'Privacy Policy';
+          legalModalContent.innerHTML = privacyHtml;
+        } else {
+          legalModalTitle.textContent = 'Terms and Conditions';
+          legalModalContent.innerHTML = termsHtml;
+        }
+        legalModal.classList.add('open');
+      }
+
+      document.getElementById('openPrivacyBtn').addEventListener('click', () => openLegalModal('privacy'));
+      document.getElementById('openTermsBtn').addEventListener('click', () => openLegalModal('terms'));
+      closeLegalModal.addEventListener('click', () => closeModal(legalModal));
+      legalModal.addEventListener('click', (e) => {
+        if (e.target === legalModal) closeModal(legalModal);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal(purchaseModal);
+          closeModal(legalModal);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
