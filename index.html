@@ -758,6 +758,7 @@
       font-size: 0.8rem;
       margin-top: 0.35rem;
       min-height: 1.1rem;
+      word-break: break-word;
     }
 
     .form-success {
@@ -995,6 +996,7 @@
       font-size: 0.82rem;
       color: var(--text-muted);
       margin-bottom: 1rem;
+      word-break: break-word;
     }
 
     .legal-body h4 {
@@ -1876,7 +1878,20 @@
         card.addEventListener('click', () => setNetwork(card.dataset.network));
       });
 
-      // Phone Normalization for Kenya M-Pesa (2547XXXXXXXX / 2541XXXXXXXX)
+      function extractErrorMessage(payload, fallback = 'Request failed') {
+        if (!payload) return fallback;
+        if (typeof payload === 'string') return payload;
+        if (typeof payload.message === 'string' && payload.message) return payload.message;
+        if (typeof payload.error === 'string' && payload.error) return payload.error;
+        if (payload.error && typeof payload.error.message === 'string') return payload.error.message;
+        if (payload.error && typeof payload.error.error === 'string') return payload.error.error;
+        try {
+          return JSON.stringify(payload);
+        } catch (_) {
+          return fallback;
+        }
+      }
+
       function normalizeKenyaPhone(rawInput) {
         const digits = String(rawInput || '').replace(/\D/g, '');
         if (digits.startsWith('254') && digits.length === 12) return digits;
@@ -1885,7 +1900,6 @@
         return null;
       }
 
-      // STK Polling Controller
       const TERMINAL_SUCCESS = new Set(['COMPLETED', 'SUCCESS', 'PAID']);
       const TERMINAL_FAILED = new Set(['FAILED', 'CANCELLED', 'REJECTED', 'EXPIRED']);
 
@@ -1926,7 +1940,10 @@
           iconEl.className = 'confirm-icon failed';
           iconEl.innerHTML = '!';
           headingEl.textContent = 'Payment Not Completed';
-          msgEl.textContent = data?.message || 'The payment prompt was cancelled, declined, or expired. You can close and try again.';
+          msgEl.textContent = extractErrorMessage(
+            data,
+            'The payment prompt was cancelled, declined, or expired. You can close and try again.'
+          );
           return;
         }
 
@@ -1944,7 +1961,7 @@
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(data?.error || `Status check failed (${res.status})`);
+          throw new Error(extractErrorMessage(data, `Status check failed (${res.status})`));
         }
         return data;
       }
@@ -1970,7 +1987,7 @@
             }
           } catch (err) {
             const msgEl = document.getElementById('statusMessage');
-            msgEl.textContent = `Polling /api/stk-status (attempt ${attempts}/${maxAttempts}): ${err.message}`;
+            msgEl.textContent = `Polling /api/stk-status (attempt ${attempts}/${maxAttempts}): ${extractErrorMessage(err)}`;
           }
 
           if (attempts >= maxAttempts) {
@@ -1986,7 +2003,6 @@
         step();
       }
 
-      // Purchase Modal Logic
       const purchaseModal = document.getElementById('purchaseModal');
       const closePurchaseModal = document.getElementById('closePurchaseModal');
       const purchaseFormView = document.getElementById('purchaseFormView');
@@ -2085,7 +2101,7 @@
 
           const data = await res.json().catch(() => ({}));
           if (!res.ok) {
-            throw new Error(data?.error || `STK Push request failed (${res.status})`);
+            throw new Error(extractErrorMessage(data, `STK Push request failed (${res.status})`));
           }
 
           const txId = data?.transactionId || data?.id || '';
@@ -2109,7 +2125,10 @@
               'STK Push initiated, but no transactionId was returned for automatic polling.';
           }
         } catch (err) {
-          phoneError.textContent = err.message || 'Unable to start STK Push. Check /api/stk-push configuration.';
+          phoneError.textContent = extractErrorMessage(
+            err,
+            'Unable to start STK Push. Check /api/stk-push configuration.'
+          );
           continueOrderBtn.disabled = false;
           continueOrderBtn.textContent = 'CONTINUE';
         }
@@ -2127,7 +2146,7 @@
             beginStkStatusPolling(currentTransactionId, { intervalMs: 3000, maxAttempts: 25 });
           }
         } catch (err) {
-          msgEl.textContent = `Status check error: ${err.message}`;
+          msgEl.textContent = `Status check error: ${extractErrorMessage(err)}`;
         }
       });
 
@@ -2135,7 +2154,6 @@
         closeModal(purchaseModal);
       });
 
-      // FAQ Accordion
       document.querySelectorAll('.faq-question').forEach((btn) => {
         btn.addEventListener('click', () => {
           const item = btn.closest('.faq-item');
@@ -2146,7 +2164,6 @@
         });
       });
 
-      // Contact Form
       const contactForm = document.getElementById('contactForm');
       contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -2184,7 +2201,6 @@
         }
       });
 
-      // Legal Modal
       const legalModal = document.getElementById('legalModal');
       const legalModalTitle = document.getElementById('legalModalTitle');
       const legalModalContent = document.getElementById('legalModalContent');
