@@ -1,51 +1,30 @@
-// Vercel serverless function: POST /api/stk-push
-// Env vars (Vercel > Settings > Environment Variables, then redeploy):
-//   PAYLOR_API_KEY      (required)
-//   PAYLOR_CHANNEL_ID   (optional, e.g. PAYL-XXXXXX; omit to use your default channel)
-
-const PRICES = { midnight: 50, "24h": 100, "7d": 250, "15d": 350, "30d": 500 };
-const NAMES = { midnight: "Tii Midnight 2GB", "24h": "24 Hours 3.5GB", "7d": "7 Days 5GB", "15d": "15 Days 7GB", "30d": "30 Days 15GB" };
+// Vercel serverless function: GET /api/status?ref=<PayHero reference>
 
 module.exports = async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed." });
-  if (!process.env.PAYLOR_API_KEY) {
-    console.error("PAYLOR_API_KEY is not set");
-    return res.status(500).json({ message: "Server is not configured." });
-  }
+  res.setHeader("Cache-Control", "no-store");
+  const ref = String(req.query.ref || "");
+  if (!/^[\w.-]{6,100}$/.test(ref)) return res.status(400).json({ status: "FAILED" });
 
-  const { phone, packageId, idempotencyKey } = req.body || {};
-  const amount = PRICES[packageId];                 // price is decided here, never by the browser
-  if (!amount || !/^254[71]\d{8}$/.test(phone || "") || !/^[\w-]{8,64}$/.test(idempotencyKey || "")) {
-    return res.status(400).json({ message: "Invalid request." });
-  }
-
-  const payload = {
-    phone,
-    amount,
-    reference: "SDI-" + idempotencyKey.replace(/-/g, "").slice(0, 16),
-    description: NAMES[packageId],
-  };
-  if (process.env.PAYLOR_CHANNEL_ID) payload.channelId = process.env.PAYLOR_CHANNEL_ID;
+  const rawAuth = (process.env.PAYHERO_AUTH || "").trim();
+  const auth = /^basic\s/i.test(rawAuth) ? rawAuth : "Basic " + rawAuth;
 
   try {
-    const r = await fetch("https://api.paylorke.com/api/v1/merchants/payments/stk-push", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + process.env.PAYLOR_API_KEY,
-        "Content-Type": "application/json",
-        "Idempotency-Key": idempotencyKey,          // Paylor de-duplicates repeated requests
-      },
-      body: JSON.stringify(payload),
-    });
-    const data = await r.json().catch(() => ({}));
-    console.log("Paylor STK response", r.status, JSON.stringify(data));   // visible in Vercel Logs
+    const r = await fetch(
+      "https://backend.payhero.co.ke/api/v2/transaction-status?reference=" + encodeURIComponent(ref),
+      { headers: { Authorization: auth } }
+    );
+    if (!r.ok) return res.status(200).json({ status: "PENDING" });
+    const t = await r.json().catch(() => ({}));
+    const s = String(t.status || "").toUpperCase();
+    console.log("PayHero status", ref, s);
 
-    if (r.status === 402) return res.status(502).json({ message: "Merchant service credits are too low. Please contact support." });
-    if (!r.ok || !data.transactionId) return res.status(502).json({ message: "Could not send the M-PESA prompt. Please try again." });
-
-    return res.status(200).json({ reference: data.transactionId });
+    let status = "PENDING";
+    if (s === "SUCCESS") status = "SUCCESS";
+    else if (s === "FAILED" || s === "CANCELLED" || s === "CANCELED") {
+      status = /cancel/i.test(JSON.stringify(t)) ? "CANCELLED" : "FAILED";
+    }
+    return res.status(200).json({ status });
   } catch (e) {
-    console.error("Paylor request failed", e);
-    return res.status(502).json({ message: "Payment service unavailable." });
+    return res.status(200).json({ status: "PENDING" });
   }
 };
